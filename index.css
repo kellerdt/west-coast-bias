@@ -1,0 +1,386 @@
+ .u-section-1 {
+  background-image: url("images/header_75_pct.jpg");
+}
+
+.u-section-1 .u-sheet-1 {
+  min-height: 599px;
+}
+
+.u-section-1 .u-image-1 {
+  width: 570px;
+  height: 570px;
+  margin: 29px auto 0 912px;
+}
+
+.u-section-1 .u-group-1 {
+  width: 656px;
+  min-height: 307px;
+  height: auto;
+  margin: -554px auto 60px -342px;
+}
+
+.u-section-1 .u-container-layout-1 {
+  padding-left: 20px;
+}
+
+.u-section-1 .u-text-1 {
+  line-height: 1;
+  text-transform: uppercase;
+  font-family: Bangers;
+  font-weight: 400;
+  letter-spacing: 4px;
+  font-size: 4.5rem;
+  margin: 58px 30px 0 0;
+}
+
+.u-section-1 .u-text-2 {
+  margin-left: 0;
+  margin-right: 30px;
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 3rem;
+}
+
+@media (max-width: 1199px) {
+   .u-section-1 {
+    background-position: 50% 50%;
+  }
+
+  .u-section-1 .u-sheet-1 {
+    min-height: 494px;
+  }
+
+  .u-section-1 .u-image-1 {
+    margin-left: 541px;
+  }
+
+  .u-section-1 .u-group-1 {
+    margin-left: -171px;
+    height: auto;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 378px;
+  }
+
+  .u-section-1 .u-image-1 {
+    margin-left: 321px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 254px;
+  }
+
+  .u-section-1 .u-image-1 {
+    width: 540px;
+    height: 540px;
+    margin-left: 171px;
+  }
+
+  .u-section-1 .u-group-1 {
+    margin-top: -524px;
+  }
+
+  .u-section-1 .u-container-layout-1 {
+    padding-left: 10px;
+  }
+
+  .u-section-1 .u-text-1 {
+    font-size: 3.75rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-sheet-1 {
+    min-height: 54px;
+  }
+
+  .u-section-1 .u-image-1 {
+    width: 340px;
+    height: 340px;
+  }
+
+  .u-section-1 .u-group-1 {
+    margin-top: -324px;
+  }
+
+  .u-section-1 .u-text-1 {
+    font-size: 3rem;
+  }
+
+  .u-section-1 .u-text-2 {
+    font-size: 1.5rem;
+  }
+} .u-section-2 {
+  background-image: none;
+}
+
+.u-section-2 .u-sheet-1 {
+  min-height: 386px;
+}
+
+.u-section-2 .u-layout-wrap-1 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.u-section-2 .u-image-1 {
+  min-height: 406px;
+  background-image: url("images/football_greyscale.png");
+  background-position: 50% 50%;
+}
+
+.u-section-2 .u-layout-cell-2 {
+  min-height: 406px;
+}
+
+.u-section-2 .u-container-layout-2 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.u-section-2 .u-text-1 {
+  font-family: Bangers;
+  font-weight: 400;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin: 40px 0 0;
+}
+
+.u-section-2 .u-btn-1 {
+  background-image: none;
+  padding: 0;
+}
+
+.u-section-2 .u-btn-2 {
+  margin-left: 0;
+  margin-right: 0;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
+  background-image: none;
+  margin-top: 20px;
+}
+
+.u-section-2 .u-image-2 {
+  min-height: 406px;
+  background-image: url("images/trophy_greyscale.png");
+  background-position: 50% 50%;
+}
+
+@media (max-width: 1199px) {
+  .u-section-2 .u-sheet-1 {
+    min-height: 500px;
+  }
+
+  .u-section-2 .u-image-1 {
+    min-height: 446px;
+  }
+
+  .u-section-2 .u-layout-cell-2 {
+    min-height: 446px;
+  }
+
+  .u-section-2 .u-container-layout-2 {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .u-section-2 .u-btn-2 {
+    position: relative;
+  }
+
+  .u-section-2 .u-image-2 {
+    min-height: 446px;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-2 .u-layout-cell-2 {
+    min-height: 100px;
+  }
+
+  .u-section-2 .u-container-layout-2 {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+
+  .u-section-2 .u-image-2 {
+    min-height: 257px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-2 .u-sheet-1 {
+    min-height: 999px;
+  }
+
+  .u-section-2 .u-image-1 {
+    min-height: 302px;
+  }
+
+  .u-section-2 .u-container-layout-2 {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .u-section-2 .u-image-2 {
+    min-height: 578px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-2 .u-sheet-1 {
+    min-height: 1200px;
+  }
+
+  .u-section-2 .u-image-1 {
+    min-height: 360px;
+  }
+
+  .u-section-2 .u-container-layout-2 {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .u-section-2 .u-image-2 {
+    min-height: 364px;
+  }
+} .u-section-3 {
+  background-image: none;
+}
+
+.u-section-3 .u-sheet-1 {
+  min-height: 500px;
+}
+
+.u-section-3 .u-layout-wrap-1 {
+  margin-top: 57px;
+  margin-bottom: 57px;
+}
+
+.u-section-3 .u-image-1 {
+  min-height: 406px;
+  background-image: url("https://www.si.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk5Nzk4Nzk1NjI4NzE3Njk2/nflfootball.jpg");
+  background-position: 50% 50%;
+  --radius: 50px;
+}
+
+.u-section-3 .u-layout-cell-2 {
+  min-height: 406px;
+}
+
+.u-section-3 .u-container-layout-2 {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.u-section-3 .u-text-1 {
+  font-family: Bangers;
+  font-weight: 400;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.u-section-3 .u-btn-1 {
+  background-image: none;
+  padding: 0;
+}
+
+.u-section-3 .u-btn-2 {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
+  background-image: none;
+  margin: 20px 0 0;
+}
+
+.u-section-3 .u-image-2 {
+  min-height: 406px;
+  background-image: url("https://xenith.com/images/products/helmets/shadow/xrs21x/blackgrey/_1200x1200_crop_center-center_70_none/630373/Shadow_GB_G_XRS21X_Front_d2ab37f8-0be1-47aa-b27d-91985a2f6652-1.webp");
+  background-position: 50% 50%;
+}
+
+@media (max-width: 1199px) {
+  .u-section-3 .u-image-1 {
+    min-height: 446px;
+  }
+
+  .u-section-3 .u-layout-cell-2 {
+    min-height: 446px;
+  }
+
+  .u-section-3 .u-container-layout-2 {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .u-section-3 .u-btn-2 {
+    position: relative;
+  }
+
+  .u-section-3 .u-image-2 {
+    min-height: 446px;
+  }
+}
+
+@media (max-width: 991px) {
+  .u-section-3 .u-layout-cell-2 {
+    min-height: 100px;
+  }
+
+  .u-section-3 .u-container-layout-2 {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+
+  .u-section-3 .u-image-2 {
+    min-height: 257px;
+  }
+}
+
+@media (max-width: 767px) {
+  .u-section-3 .u-sheet-1 {
+    min-height: 999px;
+  }
+
+  .u-section-3 .u-image-1 {
+    min-height: 302px;
+  }
+
+  .u-section-3 .u-container-layout-2 {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .u-section-3 .u-image-2 {
+    min-height: 578px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-3 .u-sheet-1 {
+    min-height: 1200px;
+  }
+
+  .u-section-3 .u-image-1 {
+    min-height: 360px;
+  }
+
+  .u-section-3 .u-container-layout-2 {
+    padding-left: 9px;
+    padding-right: 9px;
+  }
+
+  .u-section-3 .u-image-2 {
+    min-height: 364px;
+  }
+}.faded {
+}
