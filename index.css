@@ -116,7 +116,24 @@
     font-size: 1.5rem;
   }
 } .u-section-2 {
-  background-image: none;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+  position: relative;
+}
+
+.u-section-2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 98px,
+    rgba(8, 90, 23, 0.02) 100px
+  );
+  pointer-events: none;
 }
 
 .u-section-2 .u-sheet-1 {
@@ -132,6 +149,32 @@
   min-height: 406px;
   background-image: url("images/football_greyscale.png");
   background-position: 50% 50%;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.u-section-2 .u-image-1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(8, 90, 23, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.u-section-2 .u-image-1:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(8, 90, 23, 0.15);
+}
+
+.u-section-2 .u-image-1:hover::after {
+  opacity: 1;
 }
 
 .u-section-2 .u-layout-cell-2 {
@@ -149,6 +192,12 @@
   font-size: 3rem;
   letter-spacing: 2px;
   margin: 40px 0 0;
+  transition: all 0.3s ease;
+}
+
+.u-section-2 .u-text-1:hover {
+  transform: translateX(5px);
+  text-shadow: 2px 2px 4px rgba(8, 90, 23, 0.2);
 }
 
 .u-section-2 .u-btn-1 {
@@ -163,14 +212,73 @@
   font-weight: 700;
   letter-spacing: 1px;
   font-size: 0.875rem;
-  background-image: none;
+  background: linear-gradient(135deg, #085a17 0%, #0f6b1f 100%);
+  border: none;
+  border-radius: 6px;
   margin-top: 20px;
+  padding: 12px 24px;
+  box-shadow: 0 2px 8px rgba(8, 90, 23, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.u-section-2 .u-btn-2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.u-section-2 .u-btn-2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(8, 90, 23, 0.3);
+  background: linear-gradient(135deg, #0f6b1f 0%, #129c28 100%);
+}
+
+.u-section-2 .u-btn-2:hover::before {
+  left: 100%;
+}
+
+.u-section-2 .u-btn-2:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(8, 90, 23, 0.3);
 }
 
 .u-section-2 .u-image-2 {
   min-height: 406px;
   background-image: url("images/trophy_greyscale.png");
   background-position: 50% 50%;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.u-section-2 .u-image-2::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(8, 90, 23, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.u-section-2 .u-image-2:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(8, 90, 23, 0.15);
+}
+
+.u-section-2 .u-image-2:hover::after {
+  opacity: 1;
 }
 
 @media (max-width: 1199px) {
@@ -252,7 +360,27 @@
     min-height: 364px;
   }
 } .u-section-3 {
-  background-image: none;
+  background: linear-gradient(45deg, #f1f3f4 0%, #e8eaed 50%, #dadce0 100%);
+  position: relative;
+}
+
+.u-section-3::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at 20% 50%,
+    rgba(8, 90, 23, 0.03) 0%,
+    transparent 50%
+  ), radial-gradient(
+    circle at 80% 50%,
+    rgba(131, 68, 150, 0.02) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
 }
 
 .u-section-3 .u-sheet-1 {
@@ -268,7 +396,32 @@
   min-height: 406px;
   background-image: url("https://www.si.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTk5Nzk4Nzk1NjI4NzE3Njk2/nflfootball.jpg");
   background-position: 50% 50%;
-  --radius: 50px;
+  border-radius: 50px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.u-section-3 .u-image-1::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(8, 90, 23, 0.15) 0%, rgba(131, 68, 150, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.u-section-3 .u-image-1:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 12px 40px rgba(8, 90, 23, 0.2);
+}
+
+.u-section-3 .u-image-1:hover::after {
+  opacity: 1;
 }
 
 .u-section-3 .u-layout-cell-2 {
@@ -286,6 +439,12 @@
   font-size: 3rem;
   letter-spacing: 2px;
   margin: 0;
+  transition: all 0.3s ease;
+}
+
+.u-section-3 .u-text-1:hover {
+  transform: translateX(5px);
+  text-shadow: 2px 2px 4px rgba(131, 68, 150, 0.2);
 }
 
 .u-section-3 .u-btn-1 {
@@ -298,14 +457,73 @@
   font-weight: 700;
   letter-spacing: 1px;
   font-size: 0.875rem;
-  background-image: none;
+  background: linear-gradient(135deg, #085a17 0%, #0f6b1f 100%);
+  border: none;
+  border-radius: 6px;
   margin: 20px 0 0;
+  padding: 12px 24px;
+  box-shadow: 0 2px 8px rgba(8, 90, 23, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.u-section-3 .u-btn-2::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.u-section-3 .u-btn-2:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(8, 90, 23, 0.3);
+  background: linear-gradient(135deg, #0f6b1f 0%, #129c28 100%);
+}
+
+.u-section-3 .u-btn-2:hover::before {
+  left: 100%;
+}
+
+.u-section-3 .u-btn-2:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(8, 90, 23, 0.3);
 }
 
 .u-section-3 .u-image-2 {
   min-height: 406px;
   background-image: url("https://xenith.com/images/products/helmets/shadow/xrs21x/blackgrey/_1200x1200_crop_center-center_70_none/630373/Shadow_GB_G_XRS21X_Front_d2ab37f8-0be1-47aa-b27d-91985a2f6652-1.webp");
   background-position: 50% 50%;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.u-section-3 .u-image-2::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(131, 68, 150, 0.1) 0%, rgba(8, 90, 23, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.u-section-3 .u-image-2:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(131, 68, 150, 0.15);
+}
+
+.u-section-3 .u-image-2:hover::after {
+  opacity: 1;
 }
 
 @media (max-width: 1199px) {
@@ -382,5 +600,71 @@
   .u-section-3 .u-image-2 {
     min-height: 364px;
   }
-}.faded {
+}
+
+/* Additional professional styling and responsive improvements */
+.u-section-1 {
+  position: relative;
+}
+
+.u-section-1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(8, 90, 23, 0.3), transparent);
+}
+
+/* Enhanced link styling */
+.u-section-2 .u-btn-1,
+.u-section-3 .u-btn-1 {
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.u-section-2 .u-btn-1:hover,
+.u-section-3 .u-btn-1:hover {
+  color: #085a17 !important;
+}
+
+/* Responsive hover effects - disable on mobile */
+@media (max-width: 767px) {
+  .u-section-2 .u-image-1:hover,
+  .u-section-2 .u-image-2:hover,
+  .u-section-3 .u-image-1:hover,
+  .u-section-3 .u-image-2:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .u-section-2 .u-btn-2:hover,
+  .u-section-3 .u-btn-2:hover {
+    transform: none;
+  }
+}
+
+/* Loading animation for external images */
+.u-section-3 .u-image-1::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #085a17;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  opacity: 0;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.faded {
 }
