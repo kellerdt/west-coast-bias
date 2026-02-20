@@ -58,7 +58,7 @@
 
 /* Hero Section */
 .u-section-1 {
-  background-image: url("images/header_75_pct.jpg");
+  background-image: url("images/hero-bg-main.jpg");
   background-position: center;
   background-size: cover;
   min-height: 70vh;
@@ -308,7 +308,7 @@
 }
 
 .u-image-documents {
-  background-image: url("images/football_greyscale.png");
+  background-image: url("images/card-bg-documents.png");
   background-size: cover;
   background-position: center;
   height: 100%;
@@ -355,6 +355,16 @@
   flex-wrap: wrap;
   gap: 0.5rem;
   margin: 1.5rem 0;
+}
+
+/* Center content in championship cards */
+#sec-champions .u-card-features {
+  display: block;
+  text-align: center;
+}
+
+#sec-champions .u-card-title {
+  text-align: center;
 }
 
 .u-feature {

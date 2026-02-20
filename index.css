@@ -1,5 +1,5 @@
  .u-section-1 {
-  background-image: url("images/header_75_pct.jpg");
+  background-image: url("images/hero-bg-main.jpg");
 }
 
 .u-section-1 .u-sheet-1 {
@@ -147,7 +147,7 @@
 
 .u-section-2 .u-image-1 {
   min-height: 406px;
-  background-image: url("images/football_greyscale.png");
+  background-image: url("images/card-bg-documents.png");
   background-position: 50% 50%;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
@@ -251,7 +251,7 @@
 
 .u-section-2 .u-image-2 {
   min-height: 406px;
-  background-image: url("images/trophy_greyscale.png");
+  background-image: url("images/card-bg-history.png");
   background-position: 50% 50%;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
