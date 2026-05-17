@@ -1,0 +1,71 @@
+{
+  "report_type": "average-team-age",
+  "generated_at": "2026-05-16T00:00:00Z",
+  "league": "West Coast BIAS",
+  "seasons": [
+    {
+      "year": 2022,
+      "entries": [
+        { "team_name": "Boston310",                  "average_age": 25.30 },
+        { "team_name": "Choose Life",                "average_age": 26.00 },
+        { "team_name": "Could Georgia Beat Us?",     "average_age": 26.20 },
+        { "team_name": "Cyanide Sisters",            "average_age": 22.50 },
+        { "team_name": "Green 19 Amazonian Manbun",  "average_age": 22.00 },
+        { "team_name": "Greg's Elbow",               "average_age": 26.50 },
+        { "team_name": "Jennay Given Sunday",        "average_age": 24.50 },
+        { "team_name": "LA Beach Bums",              "average_age": 22.50 },
+        { "team_name": "Shuttlecock Hat-trick",      "average_age": 23.50 },
+        { "team_name": "Snesk0008",                  "average_age": 24.00 },
+        { "team_name": "Table Smashers",             "average_age": 23.00 }
+      ]
+    },
+    {
+      "year": 2023,
+      "entries": [
+        { "team_name": "Boston310",                  "average_age": 26.20 },
+        { "team_name": "Choose Life",                "average_age": 27.10 },
+        { "team_name": "Could Georgia Beat Us?",     "average_age": 26.50 },
+        { "team_name": "Cyanide Sisters",            "average_age": 23.20 },
+        { "team_name": "Green 19 Amazonian Manbun",  "average_age": 22.80 },
+        { "team_name": "Greg's Elbow",               "average_age": 27.00 },
+        { "team_name": "Jennay Given Sunday",        "average_age": 25.40 },
+        { "team_name": "LA Beach Bums",              "average_age": 23.00 },
+        { "team_name": "Shuttlecock Hat-trick",      "average_age": 24.10 },
+        { "team_name": "Snesk0008",                  "average_age": 25.00 },
+        { "team_name": "Table Smashers",             "average_age": 23.80 }
+      ]
+    },
+    {
+      "year": 2024,
+      "entries": [
+        { "team_name": "Boston310",                  "average_age": 27.10 },
+        { "team_name": "Choose Life",                "average_age": 27.70 },
+        { "team_name": "Could Georgia Beat Us?",     "average_age": 27.30 },
+        { "team_name": "Cyanide Sisters",            "average_age": 23.70 },
+        { "team_name": "Green 19 Amazonian Manbun",  "average_age": 23.20 },
+        { "team_name": "Greg's Elbow",               "average_age": 27.80 },
+        { "team_name": "Jennay Given Sunday",        "average_age": 26.00 },
+        { "team_name": "LA Beach Bums",              "average_age": 23.50 },
+        { "team_name": "Shuttlecock Hat-trick",      "average_age": 24.80 },
+        { "team_name": "Snesk0008",                  "average_age": 25.90 },
+        { "team_name": "Table Smashers",             "average_age": 24.20 }
+      ]
+    },
+    {
+      "year": 2025,
+      "entries": [
+        { "team_name": "Boston310",                  "average_age": 27.55 },
+        { "team_name": "Choose Life",                "average_age": 28.22 },
+        { "team_name": "Could Georgia Beat Us?",     "average_age": 28.00 },
+        { "team_name": "Cyanide Sisters",            "average_age": 24.00 },
+        { "team_name": "Green 19 Amazonian Manbun",  "average_age": 23.55 },
+        { "team_name": "Greg's Elbow",               "average_age": 28.22 },
+        { "team_name": "Jennay Given Sunday",        "average_age": 26.66 },
+        { "team_name": "LA Beach Bums",              "average_age": 23.77 },
+        { "team_name": "Shuttlecock Hat-trick",      "average_age": 25.33 },
+        { "team_name": "Snesk0008",                  "average_age": 26.33 },
+        { "team_name": "Table Smashers",             "average_age": 24.66 }
+      ]
+    }
+  ]
+}
