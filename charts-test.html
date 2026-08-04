@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charts POC - West Coast BIAS</title>
+
+  <!-- Site fonts (matches rest of site) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Bangers:400">
+
+  <!-- Chart.js 4.x — the charting engine -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- PapaParse 5.x — fast, robust CSV parser -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <!-- Shared chart infrastructure (palette, fetchers, registry, utilities) -->
+  <script src="wcb-charts.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: linear-gradient(135deg, #085a17 0%, #0f6b1f 100%);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    }
+    nav img { height: 36px; }
+    nav span {
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      color: white;
+      letter-spacing: 1px;
+    }
+    .nav-poc-badge {
+      margin-left: auto;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #085a17 0%, #0f6b1f 60%, #1a8a2e 100%);
+      color: white;
+      text-align: center;
+      padding: 3rem 2rem 2.5rem;
+    }
+    .hero h1 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1rem;
+      opacity: 0.85;
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── CORS warning ── */
+    .cors-warning {
+      background: #fff3cd;
+      border-left: 4px solid #f0a500;
+      margin: 1.5rem auto;
+      max-width: 1100px;
+      padding: 0.85rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: #555;
+    }
+    .cors-warning strong { color: #333; }
+    .cors-warning code {
+      background: #f1f1f1;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+    }
+
+    /* ── Container ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    /* ── Controls ── */
+    .controls-card {
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .controls-card + .controls-card {
+      margin-top: 0.6rem;
+    }
+    .controls-wrap {
+      margin: 1.5rem 0 0;
+    }
+    .controls-label {
+      font-weight: 700;
+      color: #085a17;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .format-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .format-option {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: border-color 0.12s, background 0.12s;
+      user-select: none;
+    }
+    .format-option input[type="radio"] { display: none; }
+    .format-option.selected {
+      border-color: #085a17;
+      background: rgba(8, 90, 23, 0.07);
+      color: #085a17;
+    }
+    .format-option .ext {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      background: #e8f5e9;
+      color: #085a17;
+    }
+    .format-option.selected .ext {
+      background: #085a17;
+      color: white;
+    }
+
+    /* year buttons look like format buttons but use purple accent when selected */
+    .year-option.selected {
+      border-color: #834496;
+      background: rgba(131, 68, 150, 0.07);
+      color: #834496;
+    }
+    .year-option.selected .ext {
+      background: #834496;
+      color: white;
+    }
+    .year-option .ext { background: #f3e5f7; color: #834496; }
+
+    #status-msg {
+      margin-left: auto;
+      font-size: 0.82rem;
+      color: #666;
+      font-style: italic;
+    }
+    #status-msg.loading { color: #834496; }
+    #status-msg.error   { color: #c0392b; font-style: normal; font-weight: 600; }
+    #status-msg.ok      { color: #085a17; }
+
+    /* ── Section header ── */
+    .section-header {
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #085a17;
+    }
+    .section-header h2 {
+      font-family: 'Bangers', cursive;
+      font-size: 1.6rem;
+      color: #085a17;
+      letter-spacing: 1px;
+    }
+    .section-header p {
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 0.2rem;
+    }
+
+    /* ── Charts grid ── */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    @media (max-width: 768px) {
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+
+    .chart-card {
+      background: white;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    }
+    .chart-card.full-width { grid-column: 1 / -1; }
+
+    .chart-title {
+      font-family: 'Bangers', cursive;
+      font-size: 1.3rem;
+      color: #085a17;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+    }
+    .chart-desc {
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+    .chart-wrap {
+      position: relative;
+      height: 300px;
+    }
+    .chart-card.full-width .chart-wrap { height: 360px; }
+    .chart-card.tall .chart-wrap       { height: 420px; }
+
+    /* ── Footer ── */
+    footer {
+      background: linear-gradient(135deg, #085a17 0%, #0f6b1f 100%);
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.82rem;
+    }
+    footer a { color: #b8e0bd; }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <img src="images/west_coast_bias_logo.png" alt="West Coast BIAS logo">
+  <span>West Coast BIAS</span>
+  <span class="nav-poc-badge">Charts POC</span>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Charts Test Page</h1>
+  <p>Proof-of-concept: Chart.js + PapaParse loading data from <code>data/</code> files in JSON or CSV. Switch formats and seasons live — charts reload from the same file, different format.</p>
+</div>
+
+<div class="container">
+
+  <div class="cors-warning">
+    <strong>Local development note:</strong> Fetching <code>data/</code> files requires an HTTP server.
+    Run <code>python -m http.server 8000</code> (or use VS Code Live Server) and open
+    <code>http://localhost:8000/charts-test.html</code>. This page works normally on GitHub Pages.
+  </div>
+
+  <!-- Controls -->
+  <div class="controls-wrap">
+    <div class="controls-card">
+      <span class="controls-label">Data Format</span>
+      <div class="format-options" id="fmt-options">
+        <label class="format-option selected" id="opt-json">
+          <input type="radio" name="fmt" value="json" checked>
+          <span class="ext">JSON</span> team-stats.json &amp; championships.json
+        </label>
+        <label class="format-option" id="opt-csv">
+          <input type="radio" name="fmt" value="csv">
+          <span class="ext">CSV</span> team-stats.csv &amp; championships.csv
+        </label>
+      </div>
+      <span id="status-msg">Loading…</span>
+    </div>
+
+    <div class="controls-card">
+      <span class="controls-label">Snapshot Year</span>
+      <div class="format-options" id="year-options">
+        <!-- populated after data loads -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Snapshot Section ── -->
+  <div class="section-header" style="margin-top: 2rem;">
+    <h2>Season Snapshot — <span id="snapshot-year-label">…</span></h2>
+    <p>Per-season stats for the selected year · switch year above without reloading data</p>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card full-width">
+      <div class="chart-title">All-Play Win % (Ranked)</div>
+      <div class="chart-desc">Each team's win rate vs every other team each week. Sorted best to worst. Championship winners highlighted in purple.</div>
+      <div class="chart-wrap"><canvas id="chart-winpct"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Median Wins</div>
+      <div class="chart-desc">Typical weekly head-to-head wins out of 11 possible matchups — a proxy for scoring consistency.</div>
+      <div class="chart-wrap"><canvas id="chart-median"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Avg Roster Age vs Win %</div>
+      <div class="chart-desc">Do younger or older rosters score more consistently? BoltsAnHoes excluded (no age data recorded).</div>
+      <div class="chart-wrap"><canvas id="chart-scatter"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── Trends Section ── -->
+  <div class="section-header" style="margin-top: 2.5rem;">
+    <h2>Trends Over Time</h2>
+    <p>Multi-season data — click a team in the legend to show/hide it</p>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card full-width tall">
+      <div class="chart-title">Average Roster Age by Season</div>
+      <div class="chart-desc">How each team's avg player age has shifted year over year. Rising lines = aging roster. Drops often signal a rebuild via rookie picks or trades.</div>
+      <div class="chart-wrap"><canvas id="chart-age-trend"></canvas></div>
+    </div>
+
+    <div class="chart-card full-width tall">
+      <div class="chart-title">All-Play Win % by Season</div>
+      <div class="chart-desc">Season-by-season scoring dominance. Upward trends signal improving rosters; drops may reflect trades, injuries, or regression.</div>
+      <div class="chart-wrap"><canvas id="chart-winpct-trend"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ── Championship Section ── -->
+  <div class="section-header" style="margin-top: 2.5rem;">
+    <h2>Championship History</h2>
+    <p>Loaded from <code>data/championships</code></p>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-card full-width">
+      <div class="chart-title">Championship Game Scores by Year</div>
+      <div class="chart-desc">Winner and runner-up scores each season. The upward trend reflects maturing dynasty rosters with deeper, higher-scoring lineups.</div>
+      <div class="chart-wrap"><canvas id="chart-champ"></canvas></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<footer>
+  Charts: <a href="https://www.chartjs.org/" target="_blank">Chart.js 4.x</a> (MIT) &nbsp;·&nbsp;
+  CSV: <a href="https://www.papaparse.com/" target="_blank">PapaParse 5.x</a> (MIT) &nbsp;·&nbsp;
+  West Coast BIAS Dynasty League
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+//  State
+// ─────────────────────────────────────────────
+const state = {
+  allTeams:     [],
+  allChamps:    [],
+  years:        [],
+  selectedYear: null,
+  teamNames:    [],      // sorted unique team names — used to assign consistent colors
+  fmt:          'json'
+};
+
+// ─────────────────────────────────────────────
+//  Data loading
+// ─────────────────────────────────────────────
+async function loadTeamStats(fmt) {
+  if (fmt === 'json') {
+    const { teams } = await fetchJSON('data/team-stats.json');
+    return teams;
+  }
+  return fetchCSV('data/team-stats.csv');
+}
+
+async function loadChampionships(fmt) {
+  if (fmt === 'json') {
+    const { championships } = await fetchJSON('data/championships.json');
+    return championships;
+  }
+  return fetchCSV('data/championships.csv');
+}
+
+// ─────────────────────────────────────────────
+//  Helpers
+// ─────────────────────────────────────────────
+function getTeamsForYear(year) {
+  return state.allTeams.filter(t => +t.year === +year);
+}
+
+// ─────────────────────────────────────────────
+//  Year selector — built dynamically from data
+// ─────────────────────────────────────────────
+function buildYearControls(years, selectedYear) {
+  const container = document.getElementById('year-options');
+  container.innerHTML = years.map(y => `
+    <label class="format-option year-option ${+y === +selectedYear ? 'selected' : ''}">
+      <input type="radio" name="yr" value="${y}" ${+y === +selectedYear ? 'checked' : ''}>
+      <span class="ext">${y}</span>
+    </label>
+  `).join('');
+
+  container.querySelectorAll('input[name="yr"]').forEach(radio => {
+    radio.addEventListener('change', e => {
+      state.selectedYear = +e.target.value;
+      container.querySelectorAll('.year-option').forEach(el => el.classList.remove('selected'));
+      e.target.closest('.year-option').classList.add('selected');
+      renderSnapshots(state.selectedYear);
+    });
+  });
+}
+
+// ─────────────────────────────────────────────
+//  Snapshot charts (re-render when year changes)
+// ─────────────────────────────────────────────
+function renderSnapshots(year) {
+  document.getElementById('snapshot-year-label').textContent = year;
+  const teams = getTeamsForYear(year);
+  renderWinPct(teams);
+  renderMedianWins(teams);
+  renderScatter(teams);
+}
+
+function renderWinPct(teams) {
+  const sorted = [...teams]
+    .map(t => ({ ...t, win_pct: winPct(t) }))
+    .sort((a, b) => b.win_pct - a.win_pct);
+
+  destroyChart('winpct');
+  charts.winpct = new Chart(document.getElementById('chart-winpct'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(t => t.titles > 0 ? t.team + ' 🏆' : t.team),
+      datasets: [{
+        label: 'All-Play Win %',
+        data:  sorted.map(t => t.win_pct),
+        backgroundColor: sorted.map(t => t.titles > 0 ? PURPLE.bg : GREEN.bg),
+        borderColor:     sorted.map(t => t.titles > 0 ? PURPLE.border : GREEN.border),
+        borderWidth: 1.5,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.parsed.x}%  (${sorted[ctx.dataIndex].all_play_wins}W – ${sorted[ctx.dataIndex].all_play_losses}L)`
+          }
+        }
+      },
+      scales: {
+        x: { min: 0, max: 100, ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.06)' } },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function renderMedianWins(teams) {
+  const sorted = [...teams].sort((a, b) => b.median_wins - a.median_wins);
+
+  destroyChart('median');
+  charts.median = new Chart(document.getElementById('chart-median'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(t => t.team),
+      datasets: [{
+        label: 'Median Wins',
+        data:  sorted.map(t => t.median_wins),
+        backgroundColor: sorted.map(t => t.titles > 0 ? PURPLE.bg : GREEN.bg),
+        borderColor:     sorted.map(t => t.titles > 0 ? PURPLE.border : GREEN.border),
+        borderWidth: 1.5,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y} median wins` } }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxRotation: 45,
+            font: { size: 10 },
+            callback(val) {
+              const lbl = this.getLabelForValue(val);
+              return lbl.length > 12 ? lbl.slice(0, 11) + '…' : lbl;
+            }
+          },
+          grid: { display: false }
+        },
+        y: {
+          min: 0,
+          ticks: { stepSize: 2 },
+          grid: { color: 'rgba(0,0,0,0.06)' },
+          title: { display: true, text: 'Median wins / week', color: '#666', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+function renderScatter(teams) {
+  const points = teams
+    .filter(t => t.avg_age != null)
+    .map(t => ({ x: t.avg_age, y: winPct(t), label: t.team, champion: t.titles > 0 }));
+
+  destroyChart('scatter');
+  charts.scatter = new Chart(document.getElementById('chart-scatter'), {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Teams',
+        data:  points,
+        backgroundColor: points.map(p => p.champion ? PURPLE.bg : GREEN.bg),
+        borderColor:     points.map(p => p.champion ? PURPLE.border : GREEN.border),
+        borderWidth: 2,
+        pointRadius: 7,
+        pointHoverRadius: 9
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const p = points[ctx.dataIndex];
+              return `${p.label}: age ${p.x}, win% ${p.y}%`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Avg Roster Age', color: '#666', font: { size: 11 } },
+          grid: { color: 'rgba(0,0,0,0.06)' }
+        },
+        y: {
+          title: { display: true, text: 'All-Play Win %', color: '#666', font: { size: 11 } },
+          ticks: { callback: v => v + '%' },
+          grid: { color: 'rgba(0,0,0,0.06)' }
+        }
+      }
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+//  Trend charts (rendered once per data load)
+// ─────────────────────────────────────────────
+function renderTrends() {
+  const years = state.years;
+  const names = state.teamNames;
+
+  // Build one dataset per team, with a null point for years they have no data
+  function buildDatasets(valueAccessor, skipNull) {
+    return names.map((name, i) => {
+      const data = years.map(y => {
+        const row = state.allTeams.find(t => t.team === name && +t.year === +y);
+        if (!row) return null;
+        const v = valueAccessor(row);
+        return (skipNull && v == null) ? null : v;
+      });
+      // skip teams that have no valid data points for this metric
+      if (data.every(v => v == null)) return null;
+      return {
+        label: name,
+        data,
+        borderColor:     TEAM_PALETTE_BORDER[i % TEAM_PALETTE_BORDER.length],
+        backgroundColor: TEAM_PALETTE_BG[i % TEAM_PALETTE_BG.length],
+        borderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        fill: false,
+        tension: 0.3,
+        spanGaps: true   // connect across null/missing years
+      };
+    }).filter(Boolean);
+  }
+
+  const sharedTrendOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: { boxWidth: 12, font: { size: 11 }, padding: 8 }
+      },
+      tooltip: {
+        callbacks: {
+          title: ([ctx]) => `${ctx.dataset.label} — ${years[ctx.dataIndex]}`
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { font: { size: 12 } },
+        grid:  { color: 'rgba(0,0,0,0.06)' }
+      },
+      y: {
+        grid: { color: 'rgba(0,0,0,0.06)' }
+      }
+    }
+  };
+
+  // Age trend
+  destroyChart('ageTrend');
+  charts.ageTrend = new Chart(document.getElementById('chart-age-trend'), {
+    type: 'line',
+    data: {
+      labels:   years,
+      datasets: buildDatasets(t => t.avg_age, true)
+    },
+    options: {
+      ...sharedTrendOptions,
+      scales: {
+        ...sharedTrendOptions.scales,
+        y: {
+          ...sharedTrendOptions.scales.y,
+          title: { display: true, text: 'Avg Player Age', color: '#666', font: { size: 11 } }
+        }
+      }
+    }
+  });
+
+  // Win% trend
+  destroyChart('winPctTrend');
+  charts.winPctTrend = new Chart(document.getElementById('chart-winpct-trend'), {
+    type: 'line',
+    data: {
+      labels:   years,
+      datasets: buildDatasets(t => winPct(t), false)
+    },
+    options: {
+      ...sharedTrendOptions,
+      scales: {
+        ...sharedTrendOptions.scales,
+        y: {
+          ...sharedTrendOptions.scales.y,
+          min: 0,
+          max: 100,
+          ticks: { callback: v => v + '%' },
+          title: { display: true, text: 'All-Play Win %', color: '#666', font: { size: 11 } }
+        }
+      }
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+//  Championship chart (unchanged by year)
+// ─────────────────────────────────────────────
+function renderChampionships() {
+  const sorted = [...state.allChamps].sort((a, b) => a.year - b.year);
+
+  destroyChart('champ');
+  charts.champ = new Chart(document.getElementById('chart-champ'), {
+    type: 'line',
+    data: {
+      labels: sorted.map(c => c.year),
+      datasets: [
+        {
+          label: 'Champion Score',
+          data:  sorted.map(c => c.champion_score),
+          borderColor: GREEN.border, backgroundColor: GREEN.bg,
+          borderWidth: 2.5, pointRadius: 6, pointHoverRadius: 8,
+          fill: false, tension: 0.3
+        },
+        {
+          label: 'Runner-Up Score',
+          data:  sorted.map(c => c.runner_up_score),
+          borderColor: PURPLE.border, backgroundColor: PURPLE.bg,
+          borderWidth: 2.5, pointRadius: 6, pointHoverRadius: 8,
+          fill: false, tension: 0.3,
+          borderDash: [6, 3]
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom' },
+        tooltip: {
+          callbacks: {
+            afterLabel: ctx => {
+              const c = sorted[ctx.dataIndex];
+              return ctx.datasetIndex === 0
+                ? `  ${c.champion} (${c.manager})`
+                : `  ${c.runner_up} (${c.runner_up_manager})`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false } },
+        y: {
+          title: { display: true, text: 'Fantasy Points', color: '#666', font: { size: 11 } },
+          grid:  { color: 'rgba(0,0,0,0.06)' }
+        }
+      }
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+//  Format toggle wiring
+// ─────────────────────────────────────────────
+function wireFmtControls() {
+  document.querySelectorAll('input[name="fmt"]').forEach(radio => {
+    radio.addEventListener('change', e => {
+      state.fmt = e.target.value;
+      document.querySelectorAll('#fmt-options .format-option').forEach(el => el.classList.remove('selected'));
+      e.target.closest('.format-option').classList.add('selected');
+      loadAndRender(state.fmt);
+    });
+  });
+}
+
+// ─────────────────────────────────────────────
+//  Main load + render
+// ─────────────────────────────────────────────
+async function loadAndRender(fmt) {
+  setStatus('Loading…', 'loading');
+  try {
+    const [teams, champs] = await Promise.all([
+      loadTeamStats(fmt),
+      loadChampionships(fmt)
+    ]);
+
+    state.allTeams  = teams;
+    state.allChamps = champs;
+    state.years     = [...new Set(teams.map(t => +t.year))].sort((a, b) => a - b);
+    state.teamNames = [...new Set(teams.map(t => t.team))].sort();
+
+    // default to most recent year; preserve selection across format switches
+    if (!state.selectedYear || !state.years.includes(state.selectedYear)) {
+      state.selectedYear = state.years[state.years.length - 1];
+    }
+
+    buildYearControls(state.years, state.selectedYear);
+    renderSnapshots(state.selectedYear);
+    renderTrends();
+    renderChampionships();
+
+    setStatus(`Loaded ${teams.length} rows from ${fmt.toUpperCase()}`, 'ok');
+  } catch (err) {
+    setStatus(`Error: ${err.message}`, 'error');
+    console.error(err);
+  }
+}
+
+// ─────────────────────────────────────────────
+//  Boot
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  wireFmtControls();
+  loadAndRender('json');
+});
+</script>
+</body>
+</html>

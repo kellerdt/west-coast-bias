@@ -1,0 +1,44 @@
+{
+  "championships": [
+    {
+      "year": 2022,
+      "champion": "Table Smashers",
+      "manager": "Andy Puccio",
+      "champion_score": 78.84,
+      "runner_up": "Could Alabama Beat Us?",
+      "runner_up_manager": "Brian John",
+      "runner_up_score": 74.68,
+      "notes": "Result determined by projected final score pending completion of Bills/Bengals game"
+    },
+    {
+      "year": 2023,
+      "champion": "Cyanide Sisters",
+      "manager": "Adam Potts",
+      "champion_score": 137.04,
+      "runner_up": "Jennay Given Sunday",
+      "runner_up_manager": "Mong Yang",
+      "runner_up_score": 111.84,
+      "notes": ""
+    },
+    {
+      "year": 2024,
+      "champion": "Table Smashers",
+      "manager": "Andy Puccio",
+      "champion_score": 152.66,
+      "runner_up": "Cyanide Sisters",
+      "runner_up_manager": "Adam Potts",
+      "runner_up_score": 119.52,
+      "notes": ""
+    },
+    {
+      "year": 2025,
+      "champion": "Choose Life",
+      "manager": "Nick Koutre",
+      "champion_score": 212.60,
+      "runner_up": "Green 19 Amazonian Manbun",
+      "runner_up_manager": "Jay Henningfield",
+      "runner_up_score": 135.28,
+      "notes": ""
+    }
+  ]
+}
